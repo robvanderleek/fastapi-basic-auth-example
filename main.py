@@ -34,7 +34,7 @@ class AuthStaticFiles(StaticFiles):
 
 security = HTTPBasic()
 
-app = FastAPI(dependencies=[Depends(security)])
+app = FastAPI()
 app_api = FastAPI()
 app.mount('/api', app_api, name='api')
 app.mount('/', AuthStaticFiles(directory=Path(__file__).resolve().parent.joinpath('static'), html=True),
@@ -42,7 +42,7 @@ app.mount('/', AuthStaticFiles(directory=Path(__file__).resolve().parent.joinpat
 
 
 @app_api.get("/hello", status_code=200)
-async def webhook_succeed(_=Depends(verify_credentials)):
+async def hello(_=Depends(verify_credentials)):
     return "world"
 
 
